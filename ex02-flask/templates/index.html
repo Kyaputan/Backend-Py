@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flask Backend Learning</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Flask Backend Learning</h1>
+    </header>
+    <main>
+        <p>This is a simple HTML template for learning Flask backend development.</p>
+        <p>Use this template to render dynamic content from your Flask application.</p>
+
+        <!-- Display result if available -->
+        {% if result %}
+        <p>{{ result }}</p>
+        {% endif %}
+
+        <!-- Form to add two numbers -->
+        <form action="/api/data" method="post">
+            <label for="a">Enter first number:</label>
+            <input type="text" id="a" name="a" required>
+            <label for="b">Enter second number:</label>
+            <input type="text" id="b" name="b" required>
+            <button type="submit">Add</button>
+        </form>
+
+        <!-- Form to get user input -->
+        <form action="/api/get" method="post">
+            <label for="userInput">Enter something:</label>
+            <input type="text" id="userInput" name="userInput" required>
+            <button type="submit">Submit</button>
+        </form>
+
+        <!-- Display user input if available -->
+        {% if mail %}
+        <p>You entered: {{ mail }}</p>
+        {% endif %}
+    </main>
+    <footer>
+        <p>&copy; 2023 Flask Learning</p>
+    </footer>
+</body>
+</html>
