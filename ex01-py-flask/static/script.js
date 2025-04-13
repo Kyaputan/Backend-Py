@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("sendDataBtn").addEventListener("click", sendData);
 });
 
+
 function sendData() {
     const data = { name: "John Doe", age: 25 };
 
