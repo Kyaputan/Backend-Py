@@ -57,6 +57,7 @@ def create():
     mycursor.execute(sql, val)
     mydb.commit()
     return make_response(jsonify(data), 201)
+
 # {
 #     "Name": "Rachata Singkhet",
 #     "Address": "94/4 Rayong",
