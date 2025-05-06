@@ -1,9 +1,8 @@
-from flask import Flask, render_template, request , make_response , jsonify
+from flask import Flask, request , make_response , jsonify
 from flask_cors import CORS
 import mysql.connector
-import os , base64 , json
+import os
 from dotenv import load_dotenv
-import datetime
 import time
 load_dotenv()
 
@@ -23,7 +22,7 @@ def read():
     mydb = mysql.connector.connect(host=mysql_host,user=mysql_user, password=mysql_password,db=db)
     time.sleep(0.2)
     mycursor = mydb.cursor(dictionary=True)
-    mycursor.execute("""SELECT * FROM Customers""")
+    mycursor.execute("SELECT * FROM Customers")
     result = mycursor.fetchall()
     return result
 
@@ -52,7 +51,7 @@ def create():
     mydb = mysql.connector.connect(host=mysql_host,user=mysql_user, password=mysql_password,db=db)
     mycursor = mydb.cursor(dictionary=True)
     data = request.get_json()
-    sql = "INSERT INTO Customers (Name, Address, City , PostalCode) VALUES (%s, %s, %s, %s)"
+    sql = 'INSERT INTO Customers (Name, Address, City , PostalCode) VALUES (%s, %s, %s, %s)'
     val = (data['Name'], data['Address'], data['City'], data['PostalCode'])
     mycursor.execute(sql, val)
     mydb.commit()

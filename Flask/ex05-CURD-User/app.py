@@ -17,7 +17,12 @@ mysql_database = os.getenv('DB_NAME')
 
 @app.route('/')
 def rander():
-    return "✅ Server is running! "
+    try:
+        mydb = mysql.connector.connect(host=mysql_host,user=mysql_user, password=mysql_password,db=mysql_database)
+        return "✅ Server is running!"
+    except Exception as e:
+        print("❌ Error creating table:", e)
+        return "✅ Server is running!"
 
 
 @app.route('/api' , methods=['GET'])
@@ -85,11 +90,4 @@ def delete():
 
 
 if __name__ == '__main__':
-    try:
-        mydb = mysql.connector.connect(host=mysql_host,user=mysql_user, password=mysql_password,db=mysql_database)
-        mycursor = mydb.cursor(dictionary=True)
-        mydb.close()
-        print("✅ Database is running!")
-        app.run(debug=True)
-    except mysql.connector.Error as err:
-        print("❌ Database isn't running!")
+    app.run(debug=True)

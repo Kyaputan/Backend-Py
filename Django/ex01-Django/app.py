@@ -7,7 +7,6 @@ from django.urls import path
 settings.configure(
     DEBUG=True,
     ROOT_URLCONF=__name__,
-    SECRET_KEY='your-secret-key',
     ALLOWED_HOSTS=['*'],
 )
 
