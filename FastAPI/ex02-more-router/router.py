@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-import uvicorn
 
 app = FastAPI()
 
@@ -17,5 +16,7 @@ async def Home():
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=5000)
+    import uvicorn
+    uvicorn.run("router:app", host="localhost", port=8000, reload=True)
+
     # uvicorn router:app --reload

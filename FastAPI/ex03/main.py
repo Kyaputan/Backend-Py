@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-import uvicorn
 from pydantic import BaseModel
 from typing import Union
 
@@ -30,8 +29,10 @@ def render():
 
 @app.get("/users/{user_id}")
 def read_user(user_id: int):
-    return mork_data[user_id]
+    id = user_id - 1
+    return mork_data[id]
 
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="localhost", port=5000)
+    import uvicorn
+    uvicorn.run("main:app", host="localhost", port=8000, reload=True)
