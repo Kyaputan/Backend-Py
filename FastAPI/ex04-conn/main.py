@@ -1,28 +1,48 @@
-from fastapi import FastAPI
-from typing import Union
-import mysql.connector
+from fastapi import FastAPI , Depends
+from mysql.connector import pooling
+from mysql.connector.connection import MySQLConnection
+from typing import Generator
 import os
 from dotenv import load_dotenv
 load_dotenv()
-
 
 mysql_host = os.getenv('DB_HOST')
 mysql_user = os.getenv('DB_USER')
 mysql_password = os.getenv('DB_PASSWORD')
 mysql_database = os.getenv('DB_NAME')
 
+dbconfig = {
+    "host": mysql_host,
+    "user": mysql_user,
+    "password": mysql_password,
+    "database": mysql_database
+}
+
+connection_pool = pooling.MySQLConnectionPool(
+    pool_name="mypool",
+    pool_size=5,
+    **dbconfig
+)
+
+
+def get_db() -> Generator[MySQLConnection, None, None]:
+    db = connection_pool.get_connection()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+
 app = FastAPI()
 
 @app.get("/")
-def read():
+def read(db: MySQLConnection = Depends(get_db)):
     try:
-        mydb = mysql.connector.connect(host=mysql_host,user=mysql_user, password=mysql_password,db=mysql_database)
-        mycursor = mydb.cursor(dictionary=True)
+        mycursor = db.cursor(dictionary=True)
         mycursor.execute("SELECT * FROM products")
         result = mycursor.fetchall()
         mycursor.close()
-        mydb.close()
-
         return {"status": "success",
                 "message": "✅ Server is running!",
                 "data": result}
